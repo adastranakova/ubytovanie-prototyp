@@ -20,7 +20,7 @@ Ak Apache používa iný port, upravte adresu.
 
 ## Overenie
 V databáze zmeňte názov internátu s ID 1.
-Po obnovení stránky sa musí zobraziť nový názov.
+Po obnovení stránky sa **MUSÍ** zobraziť nový názov.
 
 ## Rozsah
 Prototyp obsahuje jednu tabuľku a jednu stránku.
