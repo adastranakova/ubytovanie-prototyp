@@ -112,15 +112,7 @@ Tieto testy simulujú databázové spojenie. **Nenahrádzajú** funkčnú demon�
 - Chyba portu `5000`: zmeňte parameter `port=5000` v poslednom riadku `app.py`.
 - Stránka nemá Bootstrap dizajn: na prvé načítanie Bootstrap CSS z CDN je potrebné internetové pripojenie.
 
-## 8. Čo odfotiť do DNR
-
-1. Web – výsledok úspešnej evidencie a nový riadok v tabuľke.
-2. Web – odmietnutie po uzávierke.
-3. Web – oznámenie o duplicitnej žiadosti.
-4. MySQL Workbench – tabuľka `ziadost` po testoch (len jedna žiadosť na rok).
-5. Kód `SpravaZiadosti.py` – riadok volania `ziskajPravidlaPodavania()`.
-6. ArchiMate diagram s označenými dvoma komponentmi a ich dátovými objektmi.
 
 ## Poznámka k bezpečnosti
 
-Toto je iba lokálny výučbový prototyp. Nepoužívajte ho s reálnymi osobnými údajmi, neukladajte heslá do kódu a nespúšťajte Flask vývojový server verejne.
+Toto je iba lokálny prototyp. Nepoužívajte ho s reálnymi osobnými údajmi, neukladajte heslá do kódu a nespúšťajte Flask vývojový server verejne!!!
