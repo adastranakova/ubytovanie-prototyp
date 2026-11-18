@@ -1,0 +1,6 @@
+body { background: #f5f7fb; color:#17253d; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+.brand-mark { display:inline-grid; place-items:center; width:35px; height:35px; margin-right:9px; background:#1748a2; border-radius:10px; color:#fff; }
+.card { border:1px solid #e5eaf2; border-radius:16px; }
+.btn-primary { background:#1748a2; border-color:#1748a2; }
+.btn-primary:hover { background:#0e377e; border-color:#0e377e; }
+.table thead th { color:#64748b; font-size:.8rem; font-weight:600; text-transform:uppercase; letter-spacing:.02em; }

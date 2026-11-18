@@ -1,0 +1,122 @@
+
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Žiadosti o ubytovanie | SWI prototyp</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+  <header class="border-bottom bg-white">
+    <nav class="navbar container py-3">
+      <span class="navbar-brand fw-bold mb-0"><span class="brand-mark">U</span> Univerzitné ubytovanie</span>
+    </nav>
+  </header>
+
+  <main class="container py-5">
+    <div class="mb-4">
+      <h1 class="h2 fw-bold">Evidencia žiadostí</h1>
+    </div>
+
+    {% if db_chyba %}
+      <div class="alert alert-danger" role="alert">{{ db_chyba }}</div>
+    {% endif %}
+
+    {% with spravy = get_flashed_messages(with_categories=true) %}
+      {% for kategoria, sprava in spravy %}
+        <div class="alert alert-{{ kategoria }}" role="alert">{{ sprava }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <div class="row g-4 mb-4">
+      <div class="col-lg-7">
+        <section class="card shadow-sm h-100">
+          <div class="card-body p-4">
+            <h2 class="h5 fw-bold">Nová žiadosť</h2>
+            <p class="text-secondary small">Simulácia vytvorenia rozpracovanej žiadosti, nie oficiálne podanie.</p>
+
+            <form method="post" action="{{ url_for('evidovat') }}">
+              <label for="student" class="form-label fw-semibold">Testovací študent</label>
+              <input id="student" class="form-control mb-3" value="{{ (student.meno ~ ' ' ~ student.priezvisko) if student else 'Nedostupný' }} · DEMO-STUDENT-001" disabled>
+
+              <label for="rok" class="form-label fw-semibold">Akademický rok</label>
+              <select name="id_akademicky_rok" id="rok" class="form-select mb-3" required>
+                <option value="">Vyberte akademický rok</option>
+                {% for rok in roky %}
+                  <option value="{{ rok.id_akademicky_rok }}">{{ rok.nazov }}</option>
+                {% endfor %}
+              </select>
+
+              <button type="submit" class="btn btn-primary px-4" {% if not student or not roky %}disabled{% endif %}>Overiť a evidovať žiadosť</button>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-lg-5">
+        <section class="card shadow-sm h-100">
+          <div class="card-body p-4">
+            <h2 class="h5 fw-bold">Pravidlá podávania</h2>
+            <p class="text-secondary small">Údaje poskytuje komponent Konfigurácia akademického roka.</p>
+
+            {% for rok in roky %}
+              <div class="d-flex justify-content-between align-items-start border-top py-3 gap-3">
+                <div>
+                  <div class="fw-semibold">{{ rok.nazov }}</div>
+                  <div class="small text-secondary">{{ rok.zaciatok_podavania.strftime('%d.%m.%Y %H:%M') }} – {{ rok.uzavierka_podavania.strftime('%d.%m.%Y %H:%M') }}</div>
+                </div>
+
+                {% if rok.zaciatok_podavania <= rok.aktualny_cas < rok.uzavierka_podavania %}
+                  <span class="badge text-bg-success">Otvorené</span>
+                {% else %}
+                  <span class="badge text-bg-secondary">Zatvorené</span>
+                {% endif %}
+              </div>
+            {% else %}
+              <p class="text-secondary">Nie sú dostupné žiadne termíny.</p>
+            {% endfor %}
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <section class="card shadow-sm mb-4">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h5 fw-bold mb-0">Evidované žiadosti</h2>
+          <span class="badge bg-primary-subtle text-primary-emphasis">{{ ziadosti | length }} záznamov</span>
+        </div>
+
+        <div class="table-responsive mt-3">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Akademický rok</th>
+                <th>Stav</th>
+                <th>Vytvorená</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for z in ziadosti %}
+                <tr>
+                  <td>#{{ z.id_ziadost }}</td>
+                  <td>{{ z.akademicky_rok }}</td>
+                  <td><span class="badge text-bg-light border">{{ z.stav }}</span></td>
+                  <td>{{ z.cas_vytvorenia.strftime('%d.%m.%Y %H:%M') }}</td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td colspan="4" class="py-4 text-secondary text-center">Zatiaľ nebola vytvorená žiadna žiadosť.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
